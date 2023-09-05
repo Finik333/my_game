@@ -2,7 +2,8 @@
 
 using namespace sf;
 
-int ground = 150;
+int ground = 300;
+int a;
 
 class PLAYER {
 public:
@@ -12,12 +13,11 @@ public:
     Sprite sprite;
     float f;
     
-
      PLAYER (Texture &image) {
         sprite.setTexture(image);
         rect = FloatRect(0, 0, 40, 50);
-        dx = dy - 0;
-        f = 0;
+        dx = dy = 0;
+        f = 3;
     }
     void update(float time) {
 
@@ -32,10 +32,12 @@ public:
         if (rect.top > ground) { rect.top = ground; dy = 0; onGround = true;}
         f += 0.005 * time;
 
-        if (f > 6)f -= 4;
+        if (f > 6)f -= 3;
 
-       if(dx>0) sprite.setTextureRect(IntRect(80 * int(f), 0, 85, 85));
-       if(dx<0) sprite.setTextureRect(IntRect(80 * int(f), 0, -85, 85));
+       if (a == 0) sprite.setTextureRect(IntRect(160, 0, 85, 85));
+       if (a == 1) sprite.setTextureRect(IntRect(240, 0, -85, 85));
+       if(dx>0) sprite.setTextureRect(IntRect(80 * int(f), 0, -85, 85));
+       if(dx<0) sprite.setTextureRect(IntRect(80 * int(f), 0, 85, 85));
         sprite.setPosition(rect.left, rect.top);
         dx = 0;
     }
@@ -65,9 +67,11 @@ int main()
         }
         if (Keyboard::isKeyPressed(Keyboard::A)) {
             p.dx = -0.1;
+            a = 0;
         }
         if (Keyboard::isKeyPressed(Keyboard::D)) {
             p.dx = 0.1;
+            a = 1;
         }
         if (Keyboard::isKeyPressed(Keyboard::W)) {
             if (p.onGround) { p.dy = -0.25; p.onGround = false; }
