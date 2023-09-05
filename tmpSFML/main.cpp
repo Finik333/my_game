@@ -2,9 +2,30 @@
 
 using namespace sf;
 
-int ground = 300;
+int ground = 400;
+
 int a;
 
+const int H = 15;
+const int W = 100;
+
+String Map[H] = {
+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+"B                                                                          B",
+"B                                                                          B",
+"B                                                                          B",
+"B                                                                          B",
+"B                                                                          B",
+"B                                                                          B",
+"B              BBB         BBB                                             B",
+"B             BBBB         BBBB                                            B",
+"B            BBBBB         BBBBB                                           B",
+"B           BBBBBB         BBBBBB                                          B",
+"B          BBBBBBB         BBBBBBB                                         B",
+"B         BBBBBBBB         BBBBBBBB                                        B",
+"B        BBBBBBBBB         BBBBBBBBB                                       B",
+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+};
 class PLAYER {
 public:
     float dx, dy;
@@ -46,7 +67,7 @@ public:
 int main()
 {
    
-    RenderWindow window(VideoMode(600, 400), "MY GAME");
+    RenderWindow window(VideoMode(800, 450), "MY GAME");
     Texture t;
     t.loadFromFile("3.png");
     float f = 0;
@@ -54,6 +75,9 @@ int main()
     PLAYER p(t);
 
         Clock clock;
+
+        RectangleShape rectangle;
+
     while (window.isOpen())
     {
         float time = clock.getElapsedTime().asMicroseconds();
@@ -79,6 +103,13 @@ int main()
         p.update(time);
 
         window.clear(Color::Blue);
+        for (int i=0;i<H;i++)
+            for (int j = 0; j < W; j++) {
+                if (Map[i][j] == 'B') rectangle.setFillColor(Color::Black);
+                if (Map[i][j] == ' ')continue;
+                rectangle.setPosition(j * 32, i * 32);
+                window.draw(rectangle);
+            }
         window.draw(p.sprite);
         window.display();
     }
